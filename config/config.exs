@@ -44,6 +44,7 @@ config :spark,
 
 config :helpdesk,
   ecto_repos: [Helpdesk.Repo],
+  ash_domains: [Helpdesk.Support],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
