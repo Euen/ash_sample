@@ -14,6 +14,23 @@ defmodule Helpdesk.Support.Ticket do
     # and a create action, which we'll customize later
     create :create do
       primary? true
+
+      accept [:child_of_ticket_id]
+
+      change {Helpdesk.Changes.EnforceSingleLevelParenting,
+              parent_key: :child_of_ticket_id, children_key: :ticket_children},
+             where: [present(:child_of_ticket_id)]
+    end
+
+    update :update do
+      primary? true
+      require_atomic? false
+
+      accept [:child_of_ticket_id]
+
+      change {Helpdesk.Changes.EnforceSingleLevelParenting,
+              parent_key: :child_of_ticket_id, children_key: :ticket_children},
+             where: [changing(:child_of_ticket_id)]
     end
   end
 
